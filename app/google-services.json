@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "140804846123",
+    "project_id": "board-games-97c80",
+    "storage_bucket": "board-games-97c80.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140804846123:android:fff91a5129f3ae65e2706e",
+        "android_client_info": {
+          "package_name": "com.example.finalproject2_0"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWYXx9e4t0PsoDH1yeMmTiGV0LdODu7DU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

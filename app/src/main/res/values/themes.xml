@@ -3,6 +3,7 @@
     <style name="Base.Theme.FinalProject2_0" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">@font/kohomedium</item>
     </style>
 
     <style name="Theme.FinalProject2_0" parent="Base.Theme.FinalProject2_0" />
