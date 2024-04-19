@@ -1,6 +1,7 @@
 package com.example.finalproject2_0;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,18 +24,21 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button discoverBtn, chatBtn, profileBtn,mygamesBtn;
+    Button discoverBtn, chatBtn, profileBtn,mygamesBtn,logout;
     FirebaseAuth auth;
     //Button button;
     FirebaseUser user;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+        WindowInsetsCompat.Type.systemBars();
 
         auth = FirebaseAuth.getInstance();
-        //button = findViewById(R.id.logout);
+        logout = findViewById(R.id.logout);
         user = auth.getCurrentUser();
 
 
@@ -48,28 +52,27 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-//        button.setOnClickListener (new View.OnClickListener() {
-//            @Override
-//            public void onClick (View view) {
-//                FirebaseAuth.getInstance().signOut();
-//                Intent intent = new Intent(getApplicationContext(), Login.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+        logout.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick (View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        //boolean doneProfile = getIntent().getBooleanExtra("saveClicked",true);
 
-
-        boolean openedByButton = getIntent().getBooleanExtra("fromButton", false);
-        if (openedByButton) {
+        boolean openedByLogin = getIntent().getBooleanExtra("toMyGames", false);
+        if (openedByLogin) {
             replaceFragment(new MyGames());
         }
+
 
         mygamesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                replaceFragment(new MyGames());
-
+                    replaceFragment(new MyGames());
             }
         });
 
@@ -90,6 +93,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        boolean openedByRegister = getIntent().getBooleanExtra("fromRegister", false);
+
+        if (openedByRegister) {
+            replaceFragment(new Profile());
+        }
+
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

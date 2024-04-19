@@ -89,7 +89,8 @@ public class Register extends AppCompatActivity {
                                     Toast.makeText(Register.this, "Account created",
                                             Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent (getApplicationContext(), MainActivity. class);
-                                    intent.putExtra("fromButton", true);
+                                    intent.putExtra("fromRegister", true);
+                                    intent.putExtra("saveClicked1",false);
                                     startActivity (intent);
                                     finish();
                                 } else {

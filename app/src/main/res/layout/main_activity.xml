@@ -98,7 +98,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.91" />
+        app:layout_constraintGuide_percent="0.9124487" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/logout"
+        android:layout_height="wrap_content"
+        android:text="logout"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

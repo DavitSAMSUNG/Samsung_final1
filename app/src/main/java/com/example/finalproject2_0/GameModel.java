@@ -6,7 +6,7 @@ public class GameModel {
     String gamedescription;
     String numofplayers;
     String addtextview;
-    boolean visibility;
+    public boolean visibility;
     String date;
     String time;
     String ageRes;

@@ -24,11 +24,12 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/GameRecyclerView"
         android:layout_width="411dp"
-        android:layout_height="555dp"
+        android:layout_height="640dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="65dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <!--    <androidx.appcompat.widget.AppCompatTextView-->
     <!--        android:id="@+id/button"-->

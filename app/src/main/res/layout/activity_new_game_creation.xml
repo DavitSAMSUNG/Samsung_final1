@@ -10,10 +10,10 @@
 
     <TextView
         android:id="@+id/newgame"
-        android:layout_width="237dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="87dp"
-        android:layout_marginTop="79dp"
+        android:layout_width="275dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="76dp"
         android:text="New Game"
         android:textAlignment="center"
         android:textColor="#2196F3"
@@ -34,11 +34,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"
         android:layout_width="239dp"
         android:layout_height="67dp"
-        android:layout_marginStart="156dp"
+        android:layout_marginStart="164dp"
         android:layout_marginTop="200dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -46,26 +47,23 @@
         <com.google.android.material.textfield.TextInputEditText
 
             android:id="@+id/wgamename"
-            android:layout_width="237dp"
-            android:layout_height="52dp"
-            android:ems="10"
-            android:hint="GameName"
+            android:layout_width="match_parent"
+            android:layout_height="57dp"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <TextView
         android:id="@+id/shtdesc"
-        android:layout_width="160dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="292dp"
-        android:text="Short description:"
+        android:layout_width="132dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="284dp"
+        android:text="     Short description:"
+        android:translationX="-190dp"
         android:textSize="20sp"
-        android:translationX="-211.5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout2"
@@ -82,7 +80,6 @@
             android:layout_width="221dp"
             android:layout_height="65dp"
             android:ems="10"
-            android:hint="Description"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,43 +92,22 @@
         android:layout_marginTop="380dp"
         android:text="Date:"
         android:textSize="20sp"
-        android:translationX="-100dp"
+        android:translationX="-105dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <Button
-        android:id="@+id/choosedate"
-        android:layout_width="84dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="172dp"
-        android:layout_marginTop="360dp"
-        android:text="Choose date"
-        android:textSize="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/choosetime"
-        android:layout_width="84dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="300dp"
-        android:layout_marginTop="360dp"
-        android:text="Choose time"
-        android:textSize="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/nmb"
         android:layout_width="113dp"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="440dp"
         android:text="Number of players:"
+        android:translationX="-160dp"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:translationX="-160dp"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -139,7 +115,7 @@
         android:id="@+id/textInputLayout3"
         android:layout_width="239dp"
         android:layout_height="67dp"
-        android:layout_marginStart="152dp"
+        android:layout_marginStart="164dp"
         android:layout_marginTop="440dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -147,8 +123,8 @@
         <com.google.android.material.textfield.TextInputEditText
 
             android:id="@+id/editTextNumber"
-            android:layout_width="237dp"
-            android:layout_height="54dp"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
             android:ems="10"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -169,15 +145,15 @@
         android:id="@+id/age_restriction_spinner"
         android:layout_width="137dp"
         android:layout_height="32dp"
-        android:layout_marginStart="200dp"
+        android:layout_marginStart="220dp"
         android:layout_marginTop="520dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/creating"
-        android:layout_width="91dp"
-        android:layout_height="43dp"
+        android:layout_width="102dp"
+        android:layout_height="44dp"
         android:layout_marginStart="248dp"
         android:layout_marginTop="580dp"
         android:backgroundTint="@color/blue"
@@ -191,7 +167,7 @@
     <Button
         android:id="@+id/back"
         android:layout_width="96dp"
-        android:layout_height="42dp"
+        android:layout_height="43dp"
         android:layout_marginStart="84dp"
         android:layout_marginTop="580dp"
         android:backgroundTint="@color/blue"
@@ -200,33 +176,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="266dp"
-        android:layout_marginTop="372dp"
+        android:layout_marginStart="272dp"
+        android:layout_marginTop="380dp"
         android:text="and"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
         android:layout_width="102dp"
         android:layout_height="70dp"
-        android:layout_marginStart="163dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginStart="164dp"
+        android:layout_marginTop="360dp"
         android:background="@drawable/text_view_border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/choosedate"
+            android:layout_width="84dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="4dp"
+            android:text="Choose date"
+            android:textAlignment="center"
+            android:textSize="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/selecteddate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="44dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -237,11 +225,24 @@
         android:id="@+id/constraintLayout"
         android:layout_width="102dp"
         android:layout_height="70dp"
-        android:layout_marginStart="292dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="360dp"
         android:background="@drawable/text_view_border"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/choosetime"
+            android:layout_width="85dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="4dp"
+            android:text="Choose time"
+            android:textAlignment="center"
+            android:textSize="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.529"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/selectedtime"
@@ -256,7 +257,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-<!--    <ImageView-->
+    <!--    <ImageView-->
 <!--            android:id="@+id/newgameback"-->
 <!--            android:layout_width="483dp"-->
 <!--            android:layout_height="744dp"-->

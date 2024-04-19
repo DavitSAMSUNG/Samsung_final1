@@ -1,18 +1,13 @@
 package com.example.finalproject2_0;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.graphics.RenderEffect;
-import android.graphics.Shader;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -22,18 +17,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
-import com.example.finalproject2_0.Fragments.MyGames;import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NewGameCreation extends AppCompatActivity implements TextWatcher {
     private Button back;
@@ -53,7 +48,6 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
         setContentView(R.layout.activity_new_game_creation);
         String[] options = {"6+", "12+", "16+", "18+", "21+"};
         mStore = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
 
 
         Spinner spinner = findViewById(R.id.age_restriction_spinner);
@@ -141,21 +135,22 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewGameCreation.this, MainActivity.class);
-                intent.putExtra("fromButton", true);
+                intent.putExtra("toMyGames", true);
                 startActivity(intent);
             }
         });
-        ImageView newgamebackground = findViewById(R.id.newgameback);
+        //ImageView newgamebackground = findViewById(R.id.newgameback);
         //_________________________
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DocumentReference documentReference = mStore.collection("users").document(userID);
+        //DocumentReference documentReference = mStore.collection("users").document(userID);
         Map<String, Object> game = new HashMap<>();
+        //Map<String, Object> user = new HashMap<>();
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewGameCreation.this, MainActivity.class);
-                intent.putExtra("fromButton", true);
+                intent.putExtra("toMyGames", true);
 //                intent.putExtra("GameName", editTextGameName.getText());
 //                intent.putExtra("GameDesc", editTextGameDesc.getText());
 //                intent.putExtra("NumberOfPlayers", editTextNmbOfPl.getText());
@@ -165,15 +160,12 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
                 game.put("date",InputedDate.getText().toString());
                 game.put("time",InputedTime.getText().toString());
                 game.put("agerestrictions",AgeRes.getSelectedItem().toString());
+                game.put("owneruserid", userID);
 
 
-                mStore.collection("Games")
-                        .add(game).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
-                            }
-                        });
+
+                mStore.collection("Games").add(game);
+
                 startActivity(intent);
             }
         });
@@ -228,34 +220,34 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
     }
 
     private void openTimeRangePicker() {
-        // Initialize the start time with default values (e.g., 14:00 pm)
-        final int startHour = 14;
-        final int startMinute = 0;
+        AtomicInteger startHour = new AtomicInteger(14);
+        AtomicInteger startMinute = new AtomicInteger();
 
-        // Initialize the end time with default values (e.g., 3:00 am)
-        final int endHour = 3;
-        final int endMinute = 0;
+        AtomicInteger endHour = new AtomicInteger(3);
+        AtomicInteger endMinute = new AtomicInteger();
 
         TimePickerDialog startTimePicker = new TimePickerDialog(this, (timePicker, hour, minute) -> {
-            // Use startHour and startMinute here (they are effectively final)
-            updateTimeRangeText(startHour, startMinute, endHour, endMinute);
-        }, startHour, startMinute, false);
+            startHour.set(hour);
+            startMinute.set(minute);
+
+            updateTimeRangeText(startHour.get(), startMinute.get(), endHour.get(), endMinute.get());
+        }, startHour.get(), startMinute.get(), false);
 
         TimePickerDialog endTimePicker = new TimePickerDialog(this, (timePicker, hour, minute) -> {
-            // Use endHour and endMinute here (they are effectively final)
-            updateTimeRangeText(startHour, startMinute, endHour, endMinute);
-        }, endHour, endMinute, false);
+            endHour.set(hour);
+            endMinute.set(minute);
 
-        // Show both time pickers
-        startTimePicker.show();
+            updateTimeRangeText(startHour.get(), startMinute.get(), endHour.get(), endMinute.get());
+        }, endHour.get(), endMinute.get(), false);
+
         endTimePicker.show();
+        startTimePicker.show();
     }
 
     private void updateTimeRangeText(int startHour, int startMinute, int endHour, int endMinute) {
         String startTime = String.format("%02d:%02d", startHour, startMinute);
         String endTime = String.format("%02d:%02d", endHour, endMinute);
 
-        // Display the time range in your UI (e.g., set a TextView)
         String timeRange = startTime + " to " + endTime;
         stime.setText(timeRange);
     }
