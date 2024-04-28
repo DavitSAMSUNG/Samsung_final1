@@ -1,6 +1,19 @@
-package com.example.finalproject2_0;
+package com.example.finalproject2_0.Models;
 
 public class GameModel {
+    private String requestorId;
+    public String documentID;
+
+    public String getDocumentID() {
+        return documentID;
+    }
+
+    public String getRequestorId() {
+        return requestorId;
+    }
+
+
+
 
     String gamename;
     String gamedescription;
@@ -15,7 +28,7 @@ public class GameModel {
 
     }
 
-    public GameModel(String gamename, String gamedescription, String numofplayers, String addtextview, String date, String time,String ageRes) {
+    public GameModel(String gamename, String gamedescription, String numofplayers, String addtextview, String date, String time,String ageRes,String requestorId, String documentID) {
         this.addtextview = addtextview;
         this.gamename = gamename;
         this.gamedescription = gamedescription;
@@ -24,6 +37,8 @@ public class GameModel {
         this.time = time;
         this.ageRes = ageRes;
         this.visibility = false;
+        this.requestorId = requestorId;
+        //this.documentID = documentID;
     }
 
     public boolean isVisibility() {
@@ -62,4 +77,6 @@ public class GameModel {
     public String getAgeRes() {
         return ageRes;
     }
+
+
 }

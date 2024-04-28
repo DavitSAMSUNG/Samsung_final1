@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.finalproject2_0.GameModel;
+import com.example.finalproject2_0.Models.GameModel;
 import com.example.finalproject2_0.R;
 
 import java.util.ArrayList;
@@ -45,7 +45,9 @@ public class Game_RecyclerViewAdapter_MyGames extends RecyclerView.Adapter<Game_
         holder.agerestext.setText(String.valueOf(gameModels.get(position).getAgeRes()));
 
         boolean isVisible = gamemodels.visibility;
-        holder.constraintLayout.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        holder.expanded_layout_1.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+        holder.expanded_layout_2.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+
 
         System.out.println(gameModels.get(position));
 
@@ -57,8 +59,8 @@ public class Game_RecyclerViewAdapter_MyGames extends RecyclerView.Adapter<Game_
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView gname,gdesc,numofpl,addtext,datetext,timetext,agerestext;
-        ConstraintLayout constraintLayout,irritating;
+        public TextView gname,gdesc,numofpl,datetext,timetext,agerestext;
+        ConstraintLayout irritating, expanded_layout_1, expanded_layout_2;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,8 +70,9 @@ public class Game_RecyclerViewAdapter_MyGames extends RecyclerView.Adapter<Game_
             datetext = itemView.findViewById(R.id.showndate);
             timetext = itemView.findViewById(R.id.timerange);
             agerestext = itemView.findViewById(R.id.agerestrictions);
-            constraintLayout = itemView.findViewById(R.id.expanded_layout);
+            expanded_layout_1 = itemView.findViewById(R.id.expanded_layout1);
             irritating = itemView.findViewById(R.id.irritating);
+            expanded_layout_2 = itemView.findViewById(R.id.expanded_layout2);
 
             irritating.setOnClickListener(new View.OnClickListener() {
                 @Override

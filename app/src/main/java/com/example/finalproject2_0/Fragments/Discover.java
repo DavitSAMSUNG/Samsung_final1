@@ -1,5 +1,7 @@
 package com.example.finalproject2_0.Fragments;
 
+
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,8 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.finalproject2_0.Adapters.Game_RecyclerViewAdapter_Discover;
-import com.example.finalproject2_0.GameModel;
-import com.example.finalproject2_0.Adapters.Game_RecyclerViewAdapter_MyGames;
+import com.example.finalproject2_0.Models.GameModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -28,13 +29,17 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class Discover extends Fragment {
 
     ArrayList<GameModel> Gamemodels = new ArrayList<>();
+    private List<String> documentIDs = new ArrayList<>();
+
     RecyclerView recyclerView;
+    GameModel gameModel = new GameModel();
     Game_RecyclerViewAdapter_Discover adapter;
     FirebaseFirestore mfstore;
 
@@ -45,8 +50,10 @@ public class Discover extends Fragment {
 
         mfstore = FirebaseFirestore.getInstance();
 
+        LoadMyGame();
+
         recyclerView = view.findViewById(R.id.GameRecyclerView);
-        adapter = new Game_RecyclerViewAdapter_Discover(requireContext(), Gamemodels);
+        adapter = new Game_RecyclerViewAdapter_Discover(requireContext(), Gamemodels, documentIDs);
         recyclerView.setItemAnimator(new SlideInUpAnimator());
 
         RecyclerView.ItemDecoration itemDecoration = new
@@ -57,7 +64,7 @@ public class Discover extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        LoadMyGame();
+
 
         return view;
 
@@ -78,12 +85,16 @@ public class Discover extends Fragment {
                         for (DocumentChange dc: value.getDocumentChanges()){
                             if(dc.getType() == DocumentChange.Type.ADDED){
                                 Gamemodels.add(dc.getDocument().toObject(GameModel.class));
+                                documentIDs.add(dc.getDocument().getId());
+                                adapter.notifyDataSetChanged();
+
                             }
 
                         }
-                        adapter.notifyDataSetChanged();
+
                     }
                 });
+
     }
 
 

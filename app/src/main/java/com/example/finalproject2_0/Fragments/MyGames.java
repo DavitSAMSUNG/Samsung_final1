@@ -14,11 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.example.finalproject2_0.GameModel;
+import com.example.finalproject2_0.Models.GameModel;
 import com.example.finalproject2_0.Adapters.Game_RecyclerViewAdapter_MyGames;
 import com.example.finalproject2_0.NewGameCreation;
 import com.example.finalproject2_0.R;
+import com.example.finalproject2_0.Requests;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -29,13 +31,15 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class MyGames extends Fragment {
 
-    private Button create;
+    private Button create, managerequest;
     ArrayList<GameModel> Gamemodels = new ArrayList<>();
+    GameModel gameModel = new GameModel();
     RecyclerView recyclerView;
     Game_RecyclerViewAdapter_MyGames adapter;
     FirebaseFirestore mfstore;
@@ -45,14 +49,32 @@ public class MyGames extends Fragment {
         View view = inflater.inflate(R.layout.fragment_mygames, container, false);
 
         mfstore = FirebaseFirestore.getInstance();
-//        ImageView a = ItemView.findViewById(R.id.add);
 
 
-        create = (Button) view.findViewById(R.id.create);
+        create = view.findViewById(R.id.create);
+        managerequest = view.findViewById(R.id.requests);
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openNewGameCreation();
+                mfstore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                        .get().addOnCompleteListener(task -> {
+                            if(task.isSuccessful()){
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    openNewGameCreation();
+                                }else {
+                                    Toast.makeText(requireContext(), "Incomplete Profile", Toast.LENGTH_SHORT) . show();
+                                }
+                            }
+                        });
+
+            }
+        });
+        managerequest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), Requests.class);
+                startActivity(intent);
             }
         });
 
@@ -79,7 +101,7 @@ public class MyGames extends Fragment {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if(error != null){
-                            Log.e("Firestore error",error.getMessage()) ;
+                            Log.e("Firestore error", Objects.requireNonNull(error.getMessage()));
                             return;
                         }
 
@@ -91,6 +113,10 @@ public class MyGames extends Fragment {
                                 case ADDED:
                                     // Add the game to Gamemodels
                                     Gamemodels.add(dc.getDocument().toObject(GameModel.class));
+                                    //Gamemodels.add(dc.getDocument().getId());
+
+
+                                    System.out.println(gameModel.documentID);
                                     break;
                             }
                         }

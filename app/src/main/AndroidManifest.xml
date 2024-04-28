@@ -10,10 +10,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FinalProject2_0"
-        >
+        android:theme="@style/Theme.FinalProject2_0">
         <activity
-            android:name=".Register"
+            android:name=".Requests"
+            android:exported="false" />
+        <activity
+            android:name=".Signing.Register"
             android:exported="false" />
         <activity
             android:name=".NewGameCreation"
@@ -22,7 +24,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".Signing.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
