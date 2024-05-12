@@ -76,9 +76,6 @@ public class Profile extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 }
 
-
-
-
             }
         });
 
