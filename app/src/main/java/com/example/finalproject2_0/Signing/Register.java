@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Register extends AppCompatActivity {
-    EditText editTextEmail, editTextPassword;
+    EditText editTextEmail, editTextPassword, editTextRetype;
     Button buttonReg;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
@@ -49,6 +49,7 @@ public class Register extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
+        editTextRetype = findViewById(R.id.reenterpassword);
         buttonReg = findViewById(R.id.registerbtn);
         progressBar= findViewById(R.id.progressbar);
         clicktologin= findViewById(R.id.loginnow);
@@ -66,9 +67,10 @@ public class Register extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressBar.setVisibility(View.VISIBLE);
-                String email, password;
+                String email, password, retypepassword;
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
+                retypepassword = String.valueOf(editTextRetype.getText());
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Register.this,"Enter email", Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
@@ -79,27 +81,39 @@ public class Register extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     return;
                 }
+                if (TextUtils.isEmpty(retypepassword)) {
+                    Toast.makeText(Register.this,"Retype password", Toast.LENGTH_SHORT).show();
+                    progressBar.setVisibility(View.GONE);
+                    return;
+                }
                 progressBar.setVisibility(View.VISIBLE);
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                if (retypepassword.equals(password)){
+                    mAuth.createUserWithEmailAndPassword(email, password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(Register.this, "Account created",
-                                            Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent (getApplicationContext(), MainActivity. class);
-                                    intent.putExtra("fromRegister", true);
-                                    intent.putExtra("saveClicked1",false);
-                                    startActivity (intent);
-                                    finish();
-                                } else {
-                                    Toast.makeText(Register.this, task.getException().toString(),
-                                            Toast.LENGTH_SHORT).show();
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(Register.this, "Account created",
+                                                Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent (getApplicationContext(), MainActivity. class);
+                                        intent.putExtra("fromRegister", true);
+                                        intent.putExtra("saveClicked1",false);
+                                        startActivity (intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(Register.this, task.getException().toString(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                    progressBar.setVisibility(View.GONE);
                                 }
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
+                            });
+                }else{
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(Register.this, "Unmatching passwords",
+                            Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

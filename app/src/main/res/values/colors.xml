@@ -6,6 +6,7 @@
     <color name="login">#3BC3CF</color>
     <color name="violet">#E3CEFC</color>
     <color name="backcolor">#55CAD5</color>
+<!--    <color name="backcolor">#0f1927</color>-->
     <color name="greenish">#D2F5BF</color>
     <color name="red">#D02525</color>
 </resources>

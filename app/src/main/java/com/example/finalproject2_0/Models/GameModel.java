@@ -1,5 +1,9 @@
 package com.example.finalproject2_0.Models;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.util.Date;
+
 public class GameModel {
     private String requestorId;
     public String documentID;
@@ -13,29 +17,26 @@ public class GameModel {
     }
 
 
-
-
+    @ServerTimestamp
+    Date timestamp;
     String gamename;
     String gamedescription;
     String numofplayers;
-    String addtextview;
     public boolean visibility;
-    String date;
     String time;
-    String ageRes;
+    String agerestrictions;
 
-    public GameModel(){
+    public GameModel() {
 
     }
 
-    public GameModel(String gamename, String gamedescription, String numofplayers, String addtextview, String date, String time,String ageRes,String requestorId, String documentID) {
-        this.addtextview = addtextview;
+    public GameModel(String gamename, String gamedescription, String numofplayers, String time, String agerestrictions, String requestorId, String documentID, Date timestamp) {
         this.gamename = gamename;
         this.gamedescription = gamedescription;
         this.numofplayers = numofplayers;
-        this.date = date;
+        this.timestamp = timestamp;
         this.time = time;
-        this.ageRes = ageRes;
+        this.agerestrictions = agerestrictions;
         this.visibility = false;
         this.requestorId = requestorId;
         //this.documentID = documentID;
@@ -44,7 +45,8 @@ public class GameModel {
     public boolean isVisibility() {
         return visibility;
     }
-    public void setvisibility (boolean visibility) {
+
+    public void setvisibility(boolean visibility) {
         this.visibility = visibility;
     }
 
@@ -61,13 +63,8 @@ public class GameModel {
         return numofplayers;
     }
 
-
-    public String getAddtextview() {
-        return addtextview;
-    }
-
-    public String getDate() {
-        return date;
+    public Date getDate() {
+        return timestamp;
     }
 
     public String getTime() {
@@ -75,8 +72,56 @@ public class GameModel {
     }
 
     public String getAgeRes() {
-        return ageRes;
+        return agerestrictions;
     }
 
 
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+    }
+
+    public void setRequestorId(String requestorId) {
+        this.requestorId = requestorId;
+    }
+
+    public void setGamename(String gamename) {
+        this.gamename = gamename;
+    }
+
+    public void setGamedescription(String gamedescription) {
+        this.gamedescription = gamedescription;
+    }
+
+    public void setNumofplayers(String numofplayers) {
+        this.numofplayers = numofplayers;
+    }
+
+
+    public void setDate(Date date) {
+        this.timestamp = timestamp;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setAgeRes(String ageRes) {
+        this.agerestrictions = ageRes;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public String getAgerestrictions() {
+        return agerestrictions;
+    }
+
+    public void setAgerestrictions(String agerestrictions) {
+        this.agerestrictions = agerestrictions;
+    }
 }

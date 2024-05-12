@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +21,6 @@ import com.example.finalproject2_0.Models.GameModel;
 import com.example.finalproject2_0.Adapters.Game_RecyclerViewAdapter_MyGames;
 import com.example.finalproject2_0.NewGameCreation;
 import com.example.finalproject2_0.R;
-import com.example.finalproject2_0.Requests;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -31,15 +31,16 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 public class MyGames extends Fragment {
 
-    private Button create, managerequest;
+    private Button create;
     ArrayList<GameModel> Gamemodels = new ArrayList<>();
-    GameModel gameModel = new GameModel();
+    private List<String> documentIDs = new ArrayList<>();
     RecyclerView recyclerView;
     Game_RecyclerViewAdapter_MyGames adapter;
     FirebaseFirestore mfstore;
@@ -52,7 +53,7 @@ public class MyGames extends Fragment {
 
 
         create = view.findViewById(R.id.create);
-        managerequest = view.findViewById(R.id.requests);
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,13 +71,8 @@ public class MyGames extends Fragment {
 
             }
         });
-        managerequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), Requests.class);
-                startActivity(intent);
-            }
-        });
+
+        LoadMyGame();
 
 
         recyclerView = view.findViewById(R.id.GameRecyclerView);
@@ -86,17 +82,19 @@ public class MyGames extends Fragment {
         RecyclerView.ItemDecoration itemDecoration = new
                 DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
-
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        LoadMyGame();
+
+
+
+
 
         return view;
     }
     private void LoadMyGame(){
-        mfstore.collection("Games").whereEqualTo("owneruserid", FirebaseAuth.getInstance().getCurrentUser().getUid()).orderBy("gamename", Query.Direction.ASCENDING)
+        mfstore.collection("Games").whereEqualTo("owneruserid", FirebaseAuth.getInstance().getCurrentUser().getUid()).orderBy("timestamp", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -109,59 +107,43 @@ public class MyGames extends Fragment {
 
                         assert value != null;
                         for (DocumentChange dc : value.getDocumentChanges()) {
-                            switch (dc.getType()) {
-                                case ADDED:
-                                    // Add the game to Gamemodels
-                                    Gamemodels.add(dc.getDocument().toObject(GameModel.class));
-                                    //Gamemodels.add(dc.getDocument().getId());
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                Gamemodels.add(dc.getDocument().toObject(GameModel.class));
+                                documentIDs.add(dc.getDocument().getId());
 
-
-                                    System.out.println(gameModel.documentID);
-                                    break;
+                                for (int i = 0; i < Gamemodels.size(); i++) {
+                                    GameModel gameModel = Gamemodels.get(i);
+                                    String documentId = documentIDs.get(i);
+                                    gameModel.setDocumentID(documentId);
+                                }
+                                //Gamemodels.add(dc.getDocument().getId());
                             }
                         }
                             adapter.notifyDataSetChanged();
                     }
                 });
+        //s
         mfstore.collection("Games").orderBy("gamename", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if(error != null){
-                            Log.e("Firestore error",error.getMessage()) ;
+                            Log.e("Firestore error",error.getMessage());
                             return;
                         }
 
                         assert value != null;
-                        for (DocumentChange dc : value.getDocumentChanges()) {
-                            switch (dc.getType()) {
-                                case REMOVED:
-                                    // Remove the game from Gamemodels
-                                    Gamemodels.remove(dc.getDocument().toObject(GameModel.class));
-                                    break;
+                        for (DocumentChange dc : value.getDocumentChanges()){
+                            if (dc.getType() == DocumentChange.Type.REMOVED) {// Remove the game from Gamemodels
+                                Gamemodels.remove(dc.getDocument().toObject(GameModel.class));
                             }
                         }
                         adapter.notifyDataSetChanged();
                     }
                 });
     }
-//    private void setUpGameModels() {
-//        Bundle args = getArguments();
-//        ArrayList<Integer> numofplayers = new ArrayList<>();
-//        ArrayList<String> gamenames = new ArrayList<>();
-//        ArrayList<String> gamedescriptions = new ArrayList<>();
-//        if (args != null) {
-//            gamenames.add(args.getString("GameName"));
-//            gamedescriptions.add(args.getString("GameDesc"));
-//            numofplayers.add(args.getInt("NumberOfPlayers"));
-//        }
-//
-//        for (int i = 0; i < gamenames.size(); i++) {
-//            Gamemodels.add(new GameModel(gamenames.get(i), gamedescriptions.get(i), numofplayers.get(i)));
-//        }
-//        System.out.println(gamenames.size());
-//
-//    }
+
+
 
     private void openNewGameCreation(){
         Intent intent = new Intent(getActivity(), NewGameCreation.class);

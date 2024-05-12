@@ -6,39 +6,78 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.Discover">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/GameRecyclerView"
-        android:layout_width="410dp"
-        android:layout_height="633dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="72dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/textView"-->
+    <!--        android:layout_width="131dp"-->
+    <!--        android:layout_height="38dp"-->
+    <!--        android:layout_marginStart="180dp"-->
+    <!--        android:layout_marginTop="24dp"-->
+    <!--        android:layout_marginEnd="179dp"-->
+    <!--        android:text="Games"-->
+    <!--        android:textStyle="bold"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="50px"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.506"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="131dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="179dp"
-        android:text="Games"
-        android:textStyle="bold"
-        android:textAlignment="center"
+
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="342dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/search_view_bg"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search"
         android:textColor="@color/white"
-        android:textSize="50px"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.038" />
 
     <View
-        android:layout_width="175dp"
-        android:layout_height="1.5dp"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="68dp"
+        android:id="@+id/view1"
+        android:layout_width="300dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="1dp"
         android:background="#ffffff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <Spinner
+        android:id="@+id/filter_spinner"
+        android:layout_width="183dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#17998D"
+        app:layout_constraintBottom_toTopOf="@+id/GameRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/GameRecyclerView"
+        android:layout_width="412dp"
+        android:layout_height="556dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="172dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

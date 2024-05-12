@@ -1,5 +1,7 @@
 package com.example.finalproject2_0;
 
+import static com.google.android.gms.tasks.Tasks.await;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -26,19 +28,26 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NewGameCreation extends AppCompatActivity implements TextWatcher {
     private Button back;
     private Button datebtn, timebtn;
+    String a=null;
+    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
     private EditText editTextGameName, editTextGameDesc, editTextNmbOfPl;
     private TextView textViewNewGameName, InputedDate, InputedTime;
     Spinner AgeRes;
-    TextView sdate, stime;
+    public TextView sdate, stime;
     FirebaseFirestore mStore;
+    Date date = null;
     FirebaseAuth mAuth;
     String userID;
 
@@ -61,12 +70,17 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
         datebtn = findViewById(R.id.choosedate);
         timebtn = findViewById(R.id.choosetime);
 
+
+
+
         datebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openDatePicker();
             }
         });
+
+
 
         timebtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,9 +136,10 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
         textViewNewGameName = findViewById(R.id.newgame);
         editTextGameDesc = findViewById(R.id.secedit);
         editTextNmbOfPl = findViewById(R.id.editTextNumber);
-        InputedDate = findViewById(R.id.selecteddate);
         InputedTime = findViewById(R.id.selectedtime);
         AgeRes = findViewById(R.id.age_restriction_spinner);
+
+
 
         editTextGameName.addTextChangedListener(this);
 
@@ -147,18 +162,21 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
         Map<String, Object> game = new HashMap<>();
         //Map<String, Object> user = new HashMap<>();
 
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(NewGameCreation.this, MainActivity.class);
                 intent.putExtra("toMyGames", true);
+
+                Date finalDate = date;
 //                intent.putExtra("GameName", editTextGameName.getText());
 //                intent.putExtra("GameDesc", editTextGameDesc.getText());
 //                intent.putExtra("NumberOfPlayers", editTextNmbOfPl.getText());
                 game.put("gamename", editTextGameName.getText().toString());
                 game.put("gamedescription", editTextGameDesc.getText().toString());
                 game.put("numofplayers", editTextNmbOfPl.getText().toString());
-                game.put("date",InputedDate.getText().toString());
+                game.put("timestamp", finalDate);
                 game.put("time",InputedTime.getText().toString());
                 game.put("agerestrictions",AgeRes.getSelectedItem().toString());
                 game.put("owneruserid", userID);
@@ -172,7 +190,6 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
         });
 
 
-        System.out.println(editTextGameName.getText().toString());
 
 
         //________________________
@@ -203,21 +220,34 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                sdate.setText(String.valueOf(day) + "." + String.valueOf(month) + "." + String.valueOf(year));
+                a = String.valueOf(day) + "-" + String.valueOf(month) + "-" + String.valueOf(year);
                 if (day < 10) {
-                    sdate.setText("0" + String.valueOf(day) + "." + String.valueOf(month) + "." + String.valueOf(year));
+                    a = "0" + String.valueOf(day) + "-" + String.valueOf(month) + "-" + String.valueOf(year);
                 }
                 if (month < 10) {
-                    sdate.setText(String.valueOf(day) + "." + "0" + String.valueOf(month) + "." + String.valueOf(year));
+                    a = String.valueOf(day) + "-" + "0" + String.valueOf(month) + "-" + String.valueOf(year);
                 }
                 if (day < 10 && month < 10) {
-                    sdate.setText("0" + String.valueOf(day) + "." + "0" + String.valueOf(month) + "." + String.valueOf(year));
+                    a = "0" + String.valueOf(day) + "-" + "0" + String.valueOf(month) + "-" + String.valueOf(year);
                 }
 
+                sdate.setText(a);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            date = dateFormat.parse(sdate.getText().toString());
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }, 500);
             }
-        }, 2023, 01, 20);
+        }, 2023, 11, 20);
 
         datePickerDialog.show();
+
     }
 
     private void openTimeRangePicker() {

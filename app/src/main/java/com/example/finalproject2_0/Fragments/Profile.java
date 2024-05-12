@@ -51,6 +51,7 @@ public class Profile extends Fragment {
 
         Intent intent = new Intent (getActivity(), MainActivity. class);
         intent.putExtra("saveClicked", false);
+
         save.setOnClickListener(new View.OnClickListener() {
 
             @Override
