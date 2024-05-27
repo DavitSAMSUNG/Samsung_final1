@@ -44,21 +44,22 @@
 
     <View
         android:id="@+id/view1"
-        android:layout_width="300dp"
-        android:layout_height="2dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="1dp"
+        android:layout_width="183dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="40dp"
         android:background="#ffffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.638"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <Spinner
         android:id="@+id/filter_spinner"
-        android:layout_width="183dp"
-        android:layout_height="23dp"
+        android:layout_width="180dp"
+        android:layout_height="37dp"
         android:layout_marginTop="6dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.846"
+        app:layout_constraintHorizontal_bias="0.64"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
@@ -66,14 +67,14 @@
         android:id="@+id/view2"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="#17998D"
+        android:background="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/GameRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/GameRecyclerView"
-        android:layout_width="412dp"
+        android:layout_width="match_parent"
         android:layout_height="556dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="172dp"

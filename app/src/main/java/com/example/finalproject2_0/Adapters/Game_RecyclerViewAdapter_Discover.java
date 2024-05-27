@@ -3,6 +3,7 @@ package com.example.finalproject2_0.Adapters;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,50 +37,70 @@ import java.util.Map;
 public class Game_RecyclerViewAdapter_Discover extends RecyclerView.Adapter<Game_RecyclerViewAdapter_Discover.MyViewHolder> {
     Context context;
     public ArrayList<GameModel> gameModels;
+    private List<GameModel> filteredGamemodelslist;
     FirebaseFirestore mStore;
-    private List<String> documentIDs;
+    int acceptedCount;
 
     public Game_RecyclerViewAdapter_Discover(Context context, ArrayList<GameModel> gameModels) {
         this.mStore = FirebaseFirestore.getInstance();
         this.context = context;
         this.gameModels = gameModels;
-        this.documentIDs = documentIDs;
+        this.filteredGamemodelslist = new ArrayList<>(gameModels);
     }
+
     public void setFilteredGameModels(List<GameModel> filteredGameModels){
-        this.gameModels = (ArrayList<GameModel>) filteredGameModels;
+        this.filteredGamemodelslist = new ArrayList<>(filteredGameModels);
         notifyDataSetChanged();
+    }
+
+    public void filterByProvince(String province) {
+        Log.d("hello", "filterByProvince: ");
+        List<GameModel> tempFilteredList = new ArrayList<>();
+        if (province.equals("All")) {
+            tempFilteredList.addAll(gameModels);
+        } else {
+            for (GameModel gamemodel : gameModels) {
+                if (gamemodel.getLocation() != null && gamemodel.getLocation().equals(province)) {
+                    tempFilteredList.add(gamemodel);
+                }
+            }
+        }
+        setFilteredGameModels(tempFilteredList);
     }
 
     @NonNull
     @Override
     public Game_RecyclerViewAdapter_Discover.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-
         View view = inflater.inflate(R.layout.recyclerview_row_discover, parent, false);
         return new Game_RecyclerViewAdapter_Discover.MyViewHolder(view);
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull Game_RecyclerViewAdapter_Discover.MyViewHolder holder, int position) throws Resources.NotFoundException {
-        GameModel gamemodel = gameModels.get(position);
-        //String docId = gamemodels.getDocumentID();
-        //holder.itemView.setTag(docId);
+        GameModel gamemodel = filteredGamemodelslist.get(position);
         holder.gname.setText(gamemodel.getGamename());
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
         holder.datetext.setText(dateFormat.format(gamemodel.getDate()));
-
-
         holder.timetext.setText(gamemodel.getTime());
         holder.gdesc.setText(gamemodel.getGamedescription());
-        holder.numofpl.setText(String.valueOf(gamemodel.getNumofplayers()));
+
+        acceptedCount = 0;
+        if (gamemodel.getRequestorIds() != null){
+            for (Map<String, Object> hashMap : gamemodel.getRequestorIds()) {
+                if ("accepted".equals(hashMap.get("status"))) {
+                    acceptedCount++;
+                }
+            }
+        }
+
+        holder.numofpl.setText(acceptedCount+"/"+gamemodel.getNumofplayers());
         holder.agerestext.setText(String.valueOf(gamemodel.getAgeRes()));
         Button addbutton = holder.itemView.findViewById(R.id.add);
 
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mStore.collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .get().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
@@ -91,7 +112,6 @@ public class Game_RecyclerViewAdapter_Discover extends RecyclerView.Adapter<Game
                                             boolean userAlreadyRequested = false;
                                             if (gameDocument.exists() && gameDocument.get("requestorIds") instanceof List) {
                                                 List<Map<String, Object>> existingRequestors = (List<Map<String, Object>>) gameDocument.get("requestorIds");
-
                                                 String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                                                 for (Map<String, Object> requestor : existingRequestors) {
                                                     String requestorId = (String) requestor.get("requestorId");
@@ -100,53 +120,41 @@ public class Game_RecyclerViewAdapter_Discover extends RecyclerView.Adapter<Game
                                                         break;
                                                     }
                                                 }
-
                                             }
                                             if (userAlreadyRequested) {
                                                 Toast.makeText(context, "You've already requested this game", Toast.LENGTH_SHORT).show();
-                                            }else{
+                                            } else if(acceptedCount>=Integer.parseInt(gamemodel.getNumofplayers())) {
+                                                Toast.makeText(context, "No spots available", Toast.LENGTH_SHORT).show();
+                                            } else {
                                                 Toast.makeText(context, "Request sent!", Toast.LENGTH_SHORT).show();
                                                 Map<String, Object> requestorObject = new HashMap<>();
                                                 requestorObject.put("requestorId", FirebaseAuth.getInstance().getCurrentUser().getUid());
                                                 requestorObject.put("status", "pending");
-
                                                 mStore.collection("Games").document(gamemodel.getDocumentID())
                                                         .update("requestorIds", FieldValue.arrayUnion(requestorObject));
                                             }
                                         }
                                     });
-
                                 } else {
                                     Toast.makeText(context, "Incomplete Profile", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-
             }
         });
 
-
         boolean isVisible = gamemodel.visibility;
         holder.constraintLayout.setVisibility(isVisible ? View.VISIBLE : View.GONE);
-
-        //Normal Animation Here!
-
-        //holder.cardViewdiscover.startAnimation(AnimationUtils.loadAnimation(holder.itemView.getContext(),R.anim.cardview_anim1));
-
-
     }
 
     @Override
     public int getItemCount() {
-        return gameModels.size();
+        return filteredGamemodelslist.size();
     }
-
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public TextView gname, gdesc, numofpl, datetext, timetext, agerestext;
         CardView cardViewdiscover;
-
-        //public Button addbutton;
         ConstraintLayout constraintLayout, irritating;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -159,34 +167,21 @@ public class Game_RecyclerViewAdapter_Discover extends RecyclerView.Adapter<Game
             agerestext = itemView.findViewById(R.id.agerestrictions);
             cardViewdiscover = itemView.findViewById(R.id.cardview);
             itemView.setOnClickListener(this);
-
-
-            //String documentId = gamemodels.getDocumentID();
-
-
             constraintLayout = itemView.findViewById(R.id.expanded_layout);
             irritating = itemView.findViewById(R.id.irritating);
-
             irritating.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    GameModel gamemodels = gameModels.get(getAdapterPosition());
+                    GameModel gamemodels = filteredGamemodelslist.get(getAdapterPosition());
                     gamemodels.setvisibility(!gamemodels.isVisibility());
                     notifyItemChanged(getAdapterPosition());
                 }
             });
         }
 
-
-
         @Override
         public void onClick(View v) {
             int position = getAdapterPosition();
-            // Handle the click action for the item at this position
-            // Example: Show a toast with the position
-            Toast.makeText(v.getContext(), "Clicked item position: " + position, Toast.LENGTH_SHORT).show();
         }
     }
 }
-
-

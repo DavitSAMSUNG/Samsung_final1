@@ -1,32 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.MyGames">
 
 
     <!--    <Button-->
-<!--        android:id="@+id/button"-->
-<!--        android:layout_width="54dp"-->
-<!--        android:layout_height="46dp"-->
-<!--        android:layout_marginStart="300dp"-->
-<!--        android:layout_marginTop="16dp"-->
-<!--        android:background="@drawable/gamerequest"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <!--        android:id="@+id/button"-->
+    <!--        android:layout_width="54dp"-->
+    <!--        android:layout_height="46dp"-->
+    <!--        android:layout_marginStart="300dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:background="@drawable/gamerequest"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:id="@+id/GameRecyclerView"
-        android:layout_width="411dp"
-        android:layout_height="523dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="65dp"
+    <Button
+        android:id="@+id/create"
+        android:layout_width="98dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/blue"
+        android:ellipsize="middle"
+        android:paddingTop="5dp"
+        android:text="Create"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.948"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="88dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="179dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="180dp"
+        android:text="My Games"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#A0BEBC"
+        app:layout_constraintBottom_toTopOf="@+id/GameRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <!--    <androidx.appcompat.widget.AppCompatTextView-->
@@ -64,35 +93,64 @@
     <!--        app:layout_constraintTop_toTopOf="@+id/button"-->
     <!--        app:layout_constraintVertical_bias="1.0" />-->
 
-    <Button
-        android:id="@+id/create"
-        android:layout_width="134dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="600dp"
-        android:backgroundTint="@color/blue"
-        android:ellipsize="middle"
-        android:text="Create"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/GameRecyclerView"
+        android:layout_width="match_parent"
+
+        android:layout_height="311dp"
+        android:layout_marginTop="60dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="145dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="380dp"
+        android:text="Upcoming Games"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="50px"
+        android:textSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#A0BEBC"
+        app:layout_constraintBottom_toTopOf="@+id/GameRecyclerViewAccepted"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/GameRecyclerViewAccepted"
+        android:layout_width="match_parent"
+        android:layout_height="305dp"
+        android:layout_marginTop="416dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <!--    <Button-->
-<!--        android:layout_width="16dp"-->
-<!--        android:layout_height="23dp"-->
-<!--        android:layout_marginTop="615dp"-->
-<!--        android:layout_marginStart="121dp"-->
-<!--        android:backgroundTint="@color/red"-->
-<!--        android:padding="-20dp"-->
-<!--        android:text="abc"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textSize="5sp"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <!--        android:layout_width="16dp"-->
+    <!--        android:layout_height="23dp"-->
+    <!--        android:layout_marginTop="615dp"-->
+    <!--        android:layout_marginStart="121dp"-->
+    <!--        android:backgroundTint="@color/red"-->
+    <!--        android:padding="-20dp"-->
+    <!--        android:text="abc"-->
+    <!--        android:textColor="@color/black"-->
+    <!--        android:textSize="5sp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

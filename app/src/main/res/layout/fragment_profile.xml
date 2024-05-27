@@ -6,26 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.Profile">
 
+
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="132dp"
         android:layout_height="46dp"
-        android:layout_marginStart="136dp"
-        android:layout_marginTop="32dp"
         android:text="Profile"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="355dp"
-        android:layout_height="430dp"
-        android:layout_marginTop="136dp"
-        android:background="@drawable/profilelayout"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.8" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="355dp"
+        android:layout_height="430dp"
+        android:background="@drawable/profilelayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.548">
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -34,6 +38,7 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="80dp"
             android:text="Name:"
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,6 +50,8 @@
             android:layout_height="50dp"
             android:layout_marginStart="164dp"
             android:layout_marginTop="72dp"
+            android:textColor="@color/white"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,6 +61,8 @@
             android:layout_height="36dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="148dp"
+            android:textColor="@color/white"
+
             android:text="Age:"
             android:textAlignment="center"
             android:textSize="20dp"
@@ -66,6 +75,8 @@
             android:layout_height="50dp"
             android:layout_marginStart="164dp"
             android:layout_marginTop="140dp"
+            android:textColor="@color/white"
+
             android:inputType="number"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -78,6 +89,8 @@
             android:layout_marginTop="224dp"
             android:text="Hobbies:"
             android:textAlignment="center"
+            android:textColor="@color/white"
+
             android:textSize="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -88,6 +101,8 @@
             android:layout_height="49dp"
             android:layout_marginStart="164dp"
             android:layout_marginTop="218dp"
+            android:textColor="@color/white"
+
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -97,6 +112,8 @@
             android:layout_height="59dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="288dp"
+            android:textColor="@color/white"
+
             android:text="Available days to play:"
             android:textAlignment="center"
             android:textSize="20dp"
@@ -105,14 +122,16 @@
 
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/availablecard"
+
             android:layout_width="wrap_content"
-            android:maxWidth="150dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="false"
-            android:layout_marginTop="296dp"
             android:layout_marginStart="140dp"
+            android:layout_marginTop="296dp"
+            app:cardCornerRadius="5dp"
             app:cardUseCompatPadding="true"
-            app:contentPaddingLeft="8dp"
+            app:contentPaddingLeft="0dp"
             app:contentPaddingRight="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -120,48 +139,43 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:maxWidth="150dp"
+                android:background="#7591C8"
                 android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/myTextView"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/items"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Selectfhdjsklbldndkdlnskdbrkldndlndkd"
-                    android:ellipsize="end"
+                    android:breakStrategy="simple"
+                    android:hint="Select"
+                    android:textColor="@color/white"
+                    android:maxWidth="150dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+                    app:layout_constraintVertical_bias="1.0" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/baseline_arrow_drop_down_24"
-                    app:layout_constraintStart_toEndOf="@id/myTextView"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/items"
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/availableText"
-            android:layout_width="87dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="364dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/save"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="76dp"
+            android:layout_height="33dp"
             android:layout_marginStart="140dp"
-            android:layout_marginTop="364dp"
+            android:layout_marginTop="376dp"
             android:layout_marginEnd="187dp"
+            android:background="@color/white"
             android:text="Save"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
@@ -171,8 +185,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

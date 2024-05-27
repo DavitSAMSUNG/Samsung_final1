@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.finalproject2_0.Fragments.Chat;
 import com.example.finalproject2_0.Fragments.Discover;
 import com.example.finalproject2_0.Fragments.MyGames;
 import com.example.finalproject2_0.Fragments.Profile;
@@ -33,12 +32,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.main_activity);
 
         auth = FirebaseAuth.getInstance();
-        logout = findViewById(R.id.logout);
+        //logout = findViewById(R.id.logout);
         user = auth.getCurrentUser();
 
 
         discoverBtn = findViewById(R.id.discover_button);
-        chatBtn = findViewById(R.id.chat_button);
         profileBtn = findViewById(R.id.profile_button);
         mygamesBtn = findViewById(R.id.my_games);
 
@@ -47,15 +45,15 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-        logout.setOnClickListener (new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        logout.setOnClickListener (new View.OnClickListener() {
+//            @Override
+//            public void onClick (View view) {
+//                FirebaseAuth.getInstance().signOut();
+//                Intent intent = new Intent(getApplicationContext(), Login.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
         //boolean doneProfile = getIntent().getBooleanExtra("saveClicked",true);
 
         boolean openedByLogin = getIntent().getBooleanExtra("toMyGames", false);
@@ -80,14 +78,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        chatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("hi");
-                replaceFragment(new Chat());
-
-            }
-        });
+//        chatBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("hi");
+//                replaceFragment(new Chat());
+//
+//            }
+//        });
 
         boolean openedByRegister = getIntent().getBooleanExtra("fromRegister", false);
 

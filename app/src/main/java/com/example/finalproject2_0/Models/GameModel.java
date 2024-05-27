@@ -2,11 +2,15 @@ package com.example.finalproject2_0.Models;
 
 import com.google.firebase.firestore.ServerTimestamp;
 
+import java.lang.reflect.Array;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class GameModel {
     private String requestorId;
     public String documentID;
+    public List<Map<String,Object>> requestorIds;
 
     public String getDocumentID() {
         return documentID;
@@ -22,15 +26,18 @@ public class GameModel {
     String gamename;
     String gamedescription;
     String numofplayers;
+    String location;
+    String place;
     public boolean visibility;
     String time;
     String agerestrictions;
+    String owneruserid;
 
     public GameModel() {
 
     }
 
-    public GameModel(String gamename, String gamedescription, String numofplayers, String time, String agerestrictions, String requestorId, String documentID, Date timestamp) {
+    public GameModel(String gamename, String gamedescription, String numofplayers,String location,String place, String time, String agerestrictions, String requestorId, String documentID, List<Map<String,Object>> requestorIds, Date timestamp, String owneruserid) {
         this.gamename = gamename;
         this.gamedescription = gamedescription;
         this.numofplayers = numofplayers;
@@ -39,6 +46,10 @@ public class GameModel {
         this.agerestrictions = agerestrictions;
         this.visibility = false;
         this.requestorId = requestorId;
+        this.requestorIds = requestorIds;
+        this.location = location;
+        this.place = place;
+        this.owneruserid = owneruserid;
         //this.documentID = documentID;
     }
 
@@ -123,5 +134,34 @@ public class GameModel {
 
     public void setAgerestrictions(String agerestrictions) {
         this.agerestrictions = agerestrictions;
+    }
+
+    public List<Map<String,Object>> getRequestorIds() {
+        return requestorIds;
+    }
+
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setRequestorIds(List<Map<String, Object>> requestorIds) {
+        this.requestorIds = requestorIds;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getOwneruserid() {
+        return owneruserid;
     }
 }

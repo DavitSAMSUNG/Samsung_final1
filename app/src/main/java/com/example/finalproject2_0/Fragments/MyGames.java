@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.finalproject2_0.Adapters.Game_AcceptedAdapter;
 import com.example.finalproject2_0.Models.GameModel;
 import com.example.finalproject2_0.Adapters.Game_RecyclerViewAdapter_MyGames;
 import com.example.finalproject2_0.NewGameCreation;
@@ -30,7 +32,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,10 +44,17 @@ public class MyGames extends Fragment {
 
     private Button create;
     ArrayList<GameModel> Gamemodels = new ArrayList<>();
+
     private List<String> documentIDs = new ArrayList<>();
     RecyclerView recyclerView;
     Game_RecyclerViewAdapter_MyGames adapter;
     FirebaseFirestore mfstore;
+    //_____________________________________________________
+    ArrayList<GameModel> Gamemodelsaccepted = new ArrayList<>();
+    private List<String> documentIDsaccepted = new ArrayList<>();
+    RecyclerView recyclerViewaccepted;
+    Game_AcceptedAdapter adapteraccepted;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -72,29 +83,80 @@ public class MyGames extends Fragment {
             }
         });
 
-        LoadMyGame();
+        LoadMyGames(view);
 
+        LoadAcceptedGames(view);
 
-        recyclerView = view.findViewById(R.id.GameRecyclerView);
-        adapter = new Game_RecyclerViewAdapter_MyGames(requireContext(), Gamemodels);
-        recyclerView.setItemAnimator(new SlideInUpAnimator());
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!Gamemodelsaccepted.isEmpty()){
+                    recyclerView = view.findViewById(R.id.GameRecyclerView);
+                    adapter = new Game_RecyclerViewAdapter_MyGames(requireContext(), Gamemodels);
+                    recyclerView.setItemAnimator(new SlideInUpAnimator());
 
-        RecyclerView.ItemDecoration itemDecoration = new
-                DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(itemDecoration);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-
-
-
-
+                    RecyclerView.ItemDecoration itemDecoration = new
+                            DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL);
+                    recyclerView.addItemDecoration(itemDecoration);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setHasFixedSize(true);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        }, 200);
 
         return view;
     }
-    private void LoadMyGame(){
-        mfstore.collection("Games").whereEqualTo("owneruserid", FirebaseAuth.getInstance().getCurrentUser().getUid()).orderBy("timestamp", Query.Direction.ASCENDING)
+    private void LoadAcceptedGames(View view){
+        mfstore.collection("Games")
+                .whereNotEqualTo("owneruserid", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .whereArrayContains("requestorIds", new HashMap<String, Object>() {{
+                    put("requestorId", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    put("status", "accepted");
+                }})
+                .orderBy("timestamp", Query.Direction.ASCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                        if(error != null){
+                            System.out.println(Objects.requireNonNull(error.getMessage()));
+                            return;
+                        }
+                        assert value != null;
+                        for (DocumentChange dc : value.getDocumentChanges()) {
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                                Gamemodelsaccepted.add(dc.getDocument().toObject(GameModel.class));
+                                documentIDsaccepted.add(dc.getDocument().getId());
+
+                                for (int i = 0; i < Gamemodelsaccepted.size(); i++) {
+                                    GameModel gameModelaccepted = Gamemodelsaccepted.get(i);
+                                    String documentIdaccepted = documentIDsaccepted.get(i);
+                                    gameModelaccepted.setDocumentID(documentIdaccepted);
+                                }
+                                //Gamemodels.add(dc.getDocument().getId());
+                            }
+                        }
+
+                        recyclerViewaccepted = view.findViewById(R.id.GameRecyclerViewAccepted);
+                        adapteraccepted = new Game_AcceptedAdapter(requireContext(), Gamemodelsaccepted);
+                        recyclerViewaccepted.setItemAnimator(new SlideInUpAnimator());
+
+                        recyclerViewaccepted.setAdapter(adapteraccepted);
+                        recyclerViewaccepted.setHasFixedSize(true);
+                        recyclerViewaccepted.setLayoutManager(new LinearLayoutManager(requireContext()));
+                        adapteraccepted.notifyDataSetChanged();
+                    }
+                });
+    }
+
+
+    private void LoadMyGames(View view){
+        mfstore.collection("Games")
+            .whereEqualTo("owneruserid", FirebaseAuth.getInstance().getCurrentUser().getUid())
+            .orderBy("timestamp", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -102,7 +164,6 @@ public class MyGames extends Fragment {
                             Log.e("Firestore error", Objects.requireNonNull(error.getMessage()));
                             return;
                         }
-
 
 
                         assert value != null;
@@ -119,28 +180,29 @@ public class MyGames extends Fragment {
                                 //Gamemodels.add(dc.getDocument().getId());
                             }
                         }
-                            adapter.notifyDataSetChanged();
-                    }
-                });
-        //s
-        mfstore.collection("Games").orderBy("gamename", Query.Direction.ASCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if(error != null){
-                            Log.e("Firestore error",error.getMessage());
-                            return;
-                        }
 
-                        assert value != null;
-                        for (DocumentChange dc : value.getDocumentChanges()){
-                            if (dc.getType() == DocumentChange.Type.REMOVED) {// Remove the game from Gamemodels
-                                Gamemodels.remove(dc.getDocument().toObject(GameModel.class));
-                            }
-                        }
-                        adapter.notifyDataSetChanged();
+
                     }
                 });
+//        mfstore.collection("Games").orderBy("gamename", Query.Direction.ASCENDING)
+//                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+//                        if(error != null){
+//                            Log.e("Firestore error",error.getMessage());
+//                            return;
+//                        }
+//
+//                        assert value != null;
+//                        for (DocumentChange dc : value.getDocumentChanges()){
+//                            if (dc.getType() == DocumentChange.Type.REMOVED) {// Remove the game from Gamemodels
+//                                Gamemodels.remove(dc.getDocument().toObject(GameModel.class));
+//                            }
+//
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                    }
+//                });
     }
 
 

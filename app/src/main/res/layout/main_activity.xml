@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backcolor"
+    android:background="#0f1927"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -21,90 +21,89 @@
             android:name="com.example.finalproject2_0.Fragments.Discover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="@color/violet" />
+            android:backgroundTint="@color/white" />
+
+
 
 
     </FrameLayout>
 
-
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
     <Button
         android:id="@+id/my_games"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-6dp"
-        android:layout_marginRight="-6dp"
-        android:background="@drawable/custom_button_background"
-        android:text="MyGames"
-        android:textColor="@color/blue"
-        android:textSize="12dp"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/discover_button"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_marginStart="8dp"
+
+    android:layout_marginEnd="8dp"
+    android:background="@drawable/custom_button_background"
+    android:text="MyGames"
+    android:textColor="@color/blue"
+    android:textSize="12sp"
+    app:backgroundTint="@null"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/discover_button"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@id/guideline"
+    app:layout_constraintVertical_bias="0.5" />
 
     <Button
         android:id="@+id/discover_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_button_background"
-        android:text="Discover"
-        android:textColor="@color/blue"
-        android:textSize="12dp"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/chat_button"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/my_games"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:background="@drawable/custom_button_background"
+    android:text="Discover"
+    android:textColor="@color/blue"
+    android:textSize="12sp"
+    app:backgroundTint="@null"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/profile_button"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toEndOf="@+id/my_games"
+    app:layout_constraintTop_toTopOf="@id/guideline"
+    app:layout_constraintVertical_bias="0.5" />
 
     <Button
-        android:id="@+id/chat_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_button_background"
-        android:text="Chat"
-        android:textColor="@color/blue"
-        android:textSize="12dp"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/profile_button"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/discover_button"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <Button
-        android:id="@+id/profile_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/custom_button_background"
-        android:text="Profile"
-        android:textColor="@color/blue"
-        android:textSize="12dp"
-        app:backgroundTint="@null"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/chat_button"
-        app:layout_constraintTop_toTopOf="@id/guideline"
-        app:layout_constraintVertical_bias="0.0" />
+    android:id="@+id/profile_button"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:background="@drawable/custom_button_background"
+    android:text="Profile"
+    android:textColor="@color/blue"
+    android:textSize="12sp"
+    app:backgroundTint="@null"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5"
+    app:layout_constraintStart_toEndOf="@+id/discover_button"
+    app:layout_constraintTop_toTopOf="@id/guideline"
+    app:layout_constraintVertical_bias="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.9124487" />
+        app:layout_constraintGuide_end="112dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:id="@+id/logout"
-        android:layout_height="wrap_content"
-        android:text="logout"/>
+
+<!--    <Button-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:id="@+id/logout"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="logout"/>-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/login"
+    android:background="#3E5BB3"
+
     tools:context=".Signing.Register">
 
     <TextView
@@ -95,7 +96,7 @@
         android:layout_marginTop="70dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/design_default_color_secondary"
+        android:backgroundTint="#8BA0C0"
         android:text="Register" />
 
     <TextView

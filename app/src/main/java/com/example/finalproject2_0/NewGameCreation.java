@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,6 +24,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -57,12 +59,54 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_game_creation);
         String[] options = {"6+", "12+", "16+", "18+", "21+"};
+        String[] optionstomeet = {"Loft","Anticafe","Library","(My) House","My Option"};
+        String[] provinces = {"All","Aragatsotn", "Ararat", "Armavir", "Gegharkunik", "Kotayk", "Lori", "Shirak", "Syunik", "Tavush", "Vayots Dzor", "Yerevan"};
         mStore = FirebaseFirestore.getInstance();
 
 
         Spinner spinner = findViewById(R.id.age_restriction_spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, options);
+
+
+        TextInputLayout customOptionLayout = findViewById(R.id.textInputLayout4);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.spinneritem_2, options);
         spinner.setAdapter(adapter);
+
+        Spinner spinnerlocation = findViewById(R.id.province_spinner);
+        ArrayAdapter<String> adapterlocation = new ArrayAdapter<>(this, R.layout.spinneritem_2, provinces);
+        spinnerlocation.setAdapter(adapterlocation);
+
+
+
+        Spinner spinnerplacetomeet = findViewById(R.id.placetomeet_spinner);
+        EditText customOptionEditText = findViewById(R.id.youroption);
+        ArrayAdapter<String> adapterplacetomeet = new ArrayAdapter<>(this, R.layout.spinneritem_2, optionstomeet);
+        spinnerplacetomeet.setAdapter(adapterplacetomeet);
+
+        final Boolean[] myoptionBool = {false};
+        spinnerplacetomeet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedOption = parent.getItemAtPosition(position).toString();
+                if (selectedOption.equals("My Option")) {
+                    customOptionEditText.setVisibility(View.VISIBLE);
+                    customOptionLayout.setVisibility(View.VISIBLE);
+                    myoptionBool[0] = true;
+
+                } else {
+                    customOptionEditText.setVisibility(View.GONE);
+                    customOptionLayout.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                customOptionEditText.setVisibility(View.GONE);
+                customOptionLayout.setVisibility(View.GONE);
+            }
+        });
+
+        Log.d("myoption", String.valueOf(myoptionBool[0]));
+
 
 
         stime = findViewById(R.id.selectedtime);
@@ -94,10 +138,12 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
                 findViewById(R.id.shtdesc),
                 findViewById(R.id.date),
                 findViewById(R.id.nmb),
-                findViewById(R.id.ageres)
+                findViewById(R.id.ageres),
+                findViewById(R.id.place),
+                findViewById(R.id.location)
         };
 
-        int delay = 800; // Delay between animations (in milliseconds)
+        int delay = 700; // Delay between animations (in milliseconds)
         Handler handler = new Handler();
 
         for (int i = 0; i < textViews.length; i++) {
@@ -166,27 +212,57 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(NewGameCreation.this, MainActivity.class);
-                intent.putExtra("toMyGames", true);
+                if(!editTextGameName.getText().toString().isEmpty() && !editTextGameDesc.getText().toString().isEmpty() && !editTextNmbOfPl.getText().toString().isEmpty() && (!customOptionEditText.getText().toString().isEmpty() || !spinnerplacetomeet.getSelectedItem().toString().isEmpty()) && !sdate.getText().toString().isEmpty() && !stime.getText().toString().isEmpty() && !spinnerlocation.getSelectedItem().toString().isEmpty()){
+                    Intent intent = new Intent(NewGameCreation.this, MainActivity.class);
+                    intent.putExtra("toMyGames", true);
 
-                Date finalDate = date;
+                    Date finalDate = date;
 //                intent.putExtra("GameName", editTextGameName.getText());
 //                intent.putExtra("GameDesc", editTextGameDesc.getText());
 //                intent.putExtra("NumberOfPlayers", editTextNmbOfPl.getText());
-                game.put("gamename", editTextGameName.getText().toString());
-                game.put("gamedescription", editTextGameDesc.getText().toString());
-                game.put("numofplayers", editTextNmbOfPl.getText().toString());
-                game.put("timestamp", finalDate);
-                game.put("time",InputedTime.getText().toString());
-                game.put("agerestrictions",AgeRes.getSelectedItem().toString());
-                game.put("owneruserid", userID);
+                    game.put("gamename", editTextGameName.getText().toString());
+                    game.put("gamedescription", editTextGameDesc.getText().toString());
+                    game.put("numofplayers", editTextNmbOfPl.getText().toString());
+                    game.put("timestamp", finalDate);
+                    game.put("time",InputedTime.getText().toString());
+                    game.put("agerestrictions",AgeRes.getSelectedItem().toString());
+                    game.put("place", myoptionBool[0]?customOptionEditText.getText().toString():spinnerplacetomeet.getSelectedItem().toString());
+                    game.put("location",spinnerlocation.getSelectedItem().toString());
+
+                    game.put("owneruserid", userID);
 
 
 
-                mStore.collection("Games").add(game);
+                    mStore.collection("Games").add(game);
 
-                startActivity(intent);
+                    startActivity(intent);
+                }else{
+                    if(editTextGameName.getText().toString().isEmpty()){
+                        editTextGameName.setError("Please enter a game name");
+                    }
+                    if(editTextNmbOfPl.getText().toString().isEmpty()){
+                        editTextNmbOfPl.setError("Please enter the number of players");
+                        }
+                    if(sdate.getText().toString().isEmpty()){
+                        sdate.setError("Please select a date");
+                    }
+                    if(stime.getText().toString().isEmpty()){
+                        stime.setError("Please select a time");
+                        }
+//                    if(spinnerlocation.getSelectedItem().toString().isEmpty()){
+//                        //spinnerlocation.setError("Please select a location");
+//                        }
+                    if(myoptionBool[0] && customOptionEditText.getText().toString().isEmpty()){
+                        customOptionEditText.setError("Please enter a custom option");
+                        }
+//                    if(!myoptionBool[0] && spinnerplacetomeet.getSelectedItem().toString().isEmpty()){
+//                        spinnerplacetomeet.getSelectedItem().setError("Please select a place to meet");
+//                        }
+
+                }
+
             }
+
         });
 
 
@@ -254,7 +330,7 @@ public class NewGameCreation extends AppCompatActivity implements TextWatcher {
         AtomicInteger startHour = new AtomicInteger(14);
         AtomicInteger startMinute = new AtomicInteger();
 
-        AtomicInteger endHour = new AtomicInteger(3);
+        AtomicInteger endHour = new AtomicInteger(13);
         AtomicInteger endMinute = new AtomicInteger();
 
         TimePickerDialog startTimePicker = new TimePickerDialog(this, (timePicker, hour, minute) -> {

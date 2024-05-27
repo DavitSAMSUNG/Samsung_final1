@@ -67,7 +67,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 String email, password;
-                email = String.valueOf(editTextEmail.getText());
+                email = String.valueOf(editTextEmail.getText()).trim();
                 password = String.valueOf(editTextPassword.getText());
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(Login.this,"Enter email", Toast.LENGTH_SHORT).show();

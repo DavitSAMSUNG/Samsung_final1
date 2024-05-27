@@ -1,4 +1,4 @@
-package com.example.finalproject2_0;
+package com.example.finalproject2_0.Interfaces;
 
 import java.util.List;
 

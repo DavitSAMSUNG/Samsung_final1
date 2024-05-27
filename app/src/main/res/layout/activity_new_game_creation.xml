@@ -5,8 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/greenish"
+    android:background="#0f1927"
     tools:context=".NewGameCreation">
+
+    <TextView
+        android:id="@+id/ageres"
+        android:layout_width="160dp"
+        android:layout_height="30dp"
+        android:textColor="@color/white"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="520dp"
+        android:text="Age restrictions:"
+        android:textSize="20sp"
+        android:translationX="-210dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/age_restriction_spinner"
+        android:layout_width="137dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="220dp"
+        android:layout_marginTop="520dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/newgame"
@@ -28,7 +50,9 @@
         android:layout_height="31dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="220dp"
-        android:text="Game Name:"
+        android:textColor="@color/white"
+
+        android:text="Game Name*:"
         android:textSize="20sp"
         android:translationX="-190dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,6 +81,8 @@
         android:id="@+id/shtdesc"
         android:layout_width="132dp"
         android:layout_height="71dp"
+        android:textColor="@color/white"
+
         android:layout_marginStart="48dp"
         android:layout_marginTop="284dp"
         android:text="     Short description:"
@@ -90,7 +116,9 @@
         android:layout_height="40dp"
         android:layout_marginStart="56dp"
         android:layout_marginTop="380dp"
-        android:text="Date:"
+        android:text="Date*:"
+        android:textColor="@color/white"
+
         android:textSize="20sp"
         android:translationX="-105dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -103,11 +131,12 @@
         android:layout_height="60dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="440dp"
-        android:text="Number of players:"
+        android:textColor="@color/white"
+
+        android:text="Number of players*:"
         android:translationX="-160dp"
         android:textAlignment="center"
         android:textSize="20sp"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -126,41 +155,90 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:ems="10"
-            android:inputType="text" />
+            android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Spinner
+        android:id="@+id/placetomeet_spinner"
+        android:layout_width="167dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="208dp"
+        android:layout_marginTop="592dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout4"
+        android:layout_width="198dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="630dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:boxBackgroundMode="outline">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/youroption"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@android:color/transparent"
+            android:hint="Enter your option*"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/ageres"
+        android:id="@+id/place"
         android:layout_width="160dp"
         android:layout_height="30dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="520dp"
-        android:text="Age restrictions:"
+        android:layout_marginTop="592dp"
+        android:text="Place*:"
+        android:textColor="@color/white"
+
         android:textSize="20sp"
-        android:translationX="-210dp"
+        android:translationX="-150dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="198dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="700dp"
+        android:text="Location(province)*:"
+        android:textColor="@color/white"
+
+        android:textSize="20sp"
+        android:translationX="-260dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/age_restriction_spinner"
-        android:layout_width="137dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="520dp"
+        android:id="@+id/province_spinner"
+        android:layout_width="167dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="208dp"
+        android:layout_marginTop="700dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <Button
         android:id="@+id/creating"
         android:layout_width="102dp"
         android:layout_height="44dp"
-        android:layout_marginStart="248dp"
-        android:layout_marginTop="580dp"
+        android:layout_marginTop="744dp"
         android:backgroundTint="@color/blue"
         android:ellipsize="middle"
         android:text="Create"
         android:textAlignment="center"
         android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -168,20 +246,22 @@
         android:id="@+id/back"
         android:layout_width="96dp"
         android:layout_height="43dp"
-        android:layout_marginStart="84dp"
-        android:layout_marginTop="580dp"
+        android:layout_marginTop="748dp"
         android:backgroundTint="@color/blue"
         android:text="Back"
         android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.158"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="272dp"
+        android:textColor="@color/white"
+
         android:layout_marginTop="380dp"
         android:text="and"
         app:layout_constraintStart_toStartOf="parent"
@@ -212,9 +292,11 @@
         <TextView
             android:id="@+id/selecteddate"
             android:layout_width="wrap_content"
+            android:textColor="@color/white"
+
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -248,8 +330,10 @@
             android:id="@+id/selectedtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="48dp"
+            android:textColor="@color/white"
+
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
